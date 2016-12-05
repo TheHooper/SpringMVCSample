@@ -1,5 +1,9 @@
 package com.hooper.controller;
 
+import com.hooper.common.exception.WebErrorConstants;
+import com.hooper.common.exception.WebException;
+import com.hooper.common.util.Md5Util;
+import com.hooper.common.util.RandomStrUtil;
 import com.hooper.dto.UserDto;
 import com.hooper.dto.input.UserInput;
 import com.hooper.model.User;
@@ -12,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.annotation.Resource;
 import javax.validation.Valid;
+import java.security.NoSuchAlgorithmException;
 
 /**
  * Created by hooper on 2016/11/30.
@@ -24,9 +29,9 @@ public class UserController {
     UserService userService;
 
 
-    @RequestMapping(value = "/{userPk}",method = {RequestMethod.GET,RequestMethod.POST})
-    public Object getUser(@PathVariable Integer userPk){
-        User user = userService.get(userPk);
+    @RequestMapping(value = "/get",method = RequestMethod.GET)
+    public Object getUser(UserInput userInput){
+        User user = userService.getByName(userInput.getName());
         if(user != null){
             UserDto userDto = new UserDto();
             BeanUtils.copyProperties(user,userDto);
@@ -37,7 +42,9 @@ public class UserController {
     }
 
     @RequestMapping(value = "/new",method = RequestMethod.POST)
-    public void register(@Valid UserInput registerInput){
-        System.out.println(registerInput.toString());
+    public void register(@Valid UserInput registerInput) throws NoSuchAlgorithmException {
+        User user = new User();
+        BeanUtils.copyProperties(registerInput,user);
+        userService.insert(user);
     }
 }

@@ -1,19 +1,21 @@
 package com.hooper.dto.input;
 
+import org.hibernate.validator.constraints.Length;
 import org.hibernate.validator.constraints.NotEmpty;
-
 
 /**
  * Created by hooper on 2016/12/1.
  */
 public class UserInput {
 
-    @NotEmpty(message = "message test")
+    @NotEmpty()
+    @Length(min = 4,max = 16)
     private String name;
 
     private String avatar;
 
-    @NotEmpty(message = "new message")
+    @Length(min = 6,max = 16)
+    @NotEmpty()
     private String password;
 
     public String getName() {

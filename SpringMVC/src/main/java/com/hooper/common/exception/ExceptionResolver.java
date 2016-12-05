@@ -2,6 +2,7 @@ package com.hooper.common.exception;
 
 import com.alibaba.fastjson.JSON;
 import org.springframework.util.StringUtils;
+import org.springframework.validation.BindException;
 import org.springframework.web.servlet.HandlerExceptionResolver;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.util.UrlPathHelper;
@@ -13,6 +14,7 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.ConcurrentMap;
+
 
 /**
  * Created by 47123 on 2016/11/15.
@@ -39,7 +41,12 @@ public class ExceptionResolver  implements HandlerExceptionResolver {
                 exInfoMap.put("state",((ErrorCodeException) e).getCode());
                 exInfoMap.put("message",e.getMessage());
 
-            }else{
+            }else if( e instanceof BindException) {
+                exInfoMap.put("state","7777");
+                exInfoMap.put("message",((BindException) e).getFieldError().getField()
+                        +":"+((BindException) e).getFieldError().getDefaultMessage());
+            }
+            else {
                 String exceptionName = e.getClass().getSimpleName();
                 //这里可以做个配置，从配置文件里匹配常用异常名的对应错误码。
                 exInfoMap.put("state","9999");

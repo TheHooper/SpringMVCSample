@@ -5,6 +5,7 @@ import org.codehaus.jackson.JsonEncoding;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.springframework.util.CollectionUtils;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.servlet.View;
 import org.springframework.web.servlet.view.AbstractView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,7 +18,7 @@ import java.util.Set;
 /**
  * Created by 47123 on 2016/11/11.
  */
-public class CustomJsonView extends AbstractView {
+public class CustomJsonView implements View {
 
     public static final String DEFAULT_CONTENT_TYPE = "application/json";
     private ObjectMapper objectMapper = new ObjectMapper();
@@ -25,12 +26,23 @@ public class CustomJsonView extends AbstractView {
     private boolean prefixJson;
     private Set<String> renderedAttributes;
     private boolean disableCaching;
+    private String contentType;
+
 
     public CustomJsonView(){
         this.encoding = JsonEncoding.UTF8;
         this.prefixJson = false;
         this.disableCaching = true;
         this.setContentType("application/json");
+    }
+
+    @Override
+    public String getContentType() {
+        return contentType;
+    }
+
+    public void setContentType(String contentType) {
+        this.contentType = contentType;
     }
 
     protected void prepareResponse(HttpServletRequest request, HttpServletResponse response) {
@@ -44,9 +56,9 @@ public class CustomJsonView extends AbstractView {
 
     }
 
-    @Override
     protected void renderMergedOutputModel(Map<String, Object> map, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Exception {
         Object value = this.filterModel(map);
+        System.out.println(httpServletRequest);
         Map<String,Object> resultMap = new HashMap<String,Object>();
         resultMap.put("state",0);
         resultMap.put("data",value);
@@ -61,11 +73,19 @@ public class CustomJsonView extends AbstractView {
 
         while(var5.hasNext()) {
             Map.Entry entry = (Map.Entry)var5.next();
-            if(!(entry.getValue() instanceof BindingResult) && renderedAttributes.contains(entry.getKey())) {
+            if(!(entry.getValue() instanceof BindingResult) && renderedAttributes.contains(entry.getKey())
+                    && !((String)entry.getKey()).toLowerCase().contains("input") && !((String)entry.getKey()).toLowerCase().contains("form") ) {
                 result.put((String)entry.getKey(), entry.getValue());
             }
         }
 
         return result;
+    }
+
+
+    @Override
+    public void render(Map<String, ?> map, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws Exception {
+        this.prepareResponse(httpServletRequest, httpServletResponse);
+        this.renderMergedOutputModel((Map<String, Object>) map,httpServletRequest,httpServletResponse);
     }
 }

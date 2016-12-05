@@ -26,13 +26,15 @@
 				<entry key="JSP" value-ref="jspViewResolver"/>
 			</map>
 		</property>
-		<!--<property name="defaultViewResolver" ref="jspViewResolver"/>-->
+		<property name="defaultViewResolver" ref="customJsonViewResolver"/>
 		<property name="response404" value="true"/>
 	</bean>
 
 	<bean id="customJsonView" class="com.hooper.common.viewResolver.CustomJsonView"/>
 	<bean id="customJsonViewResolver" class="com.hooper.common.viewResolver.CustomJsonViewResolver">
 		<property name="order" value="10"/>
+	</bean>
+	<bean id="jsonView" class="org.springframework.web.servlet.view.json.MappingJacksonJsonView">
 	</bean>
 
 	<bean id="jspViewResolver"
@@ -56,12 +58,17 @@
 		<!--</property>-->
 	</bean>
 
-	<!--<bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">-->
-		<!--<property name="providerClass"  value="org.hibernate.validator.HibernateValidator"/>-->
-		<!--&lt;!&ndash;不设置则默认为classpath下的 ValidationMessages.properties &ndash;&gt;-->
-		<!--&lt;!&ndash;<property name="validationMessageSource" ref="validatemessageSource"/>&ndash;&gt;-->
-	<!--</bean>-->
+	<bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
+		<property name="providerClass"  value="org.hibernate.validator.HibernateValidator"/>
+		<!--不设置则默认为classpath下的 ValidationMessages.properties -->
+		<property name="validationMessageSource" ref="validatemessageSource"/>
+	</bean>
 
+	<bean id="validatemessageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+		<property name="basename" value="classpath:validation.properties"/>
+		<property name="fileEncodings" value="utf-8"/>
+		<property name="cacheSeconds" value="120"/>
+	</bean>
 </beans>
 
 
