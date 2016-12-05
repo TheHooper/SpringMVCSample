@@ -1,24 +1,20 @@
 package com.hooper.dto.input;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
+
 /**
  * Created by hooper on 2016/12/1.
  */
 public class UserInput {
-    private Integer id;
 
+    @NotEmpty(message = "message test")
     private String name;
 
     private String avatar;
 
+    @NotEmpty(message = "new message")
     private String password;
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
 
     public String getName() {
         return name;

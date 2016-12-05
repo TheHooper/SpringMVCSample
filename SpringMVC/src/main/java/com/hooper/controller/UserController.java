@@ -1,6 +1,7 @@
 package com.hooper.controller;
 
 import com.hooper.dto.UserDto;
+import com.hooper.dto.input.UserInput;
 import com.hooper.model.User;
 import com.hooper.service.UserService;
 import org.springframework.beans.BeanUtils;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.annotation.Resource;
+import javax.validation.Valid;
 
 /**
  * Created by hooper on 2016/11/30.
@@ -32,5 +34,10 @@ public class UserController {
         }else{
             return null;
         }
+    }
+
+    @RequestMapping(value = "/new",method = RequestMethod.POST)
+    public void register(@Valid UserInput registerInput){
+        System.out.println(registerInput.toString());
     }
 }
