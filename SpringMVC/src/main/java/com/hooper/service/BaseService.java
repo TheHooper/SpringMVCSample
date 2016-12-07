@@ -7,12 +7,12 @@ import java.security.NoSuchAlgorithmException;
  */
 public interface BaseService<E,PK> {
 
-    public E get(PK pk);
+    public E get(PK pk) throws Exception;
 
-    public void insert(E e) throws NoSuchAlgorithmException;
+    public void insert(E e) throws Exception;
 
-    public void modify(E e);
+    public void modify(E e) throws Exception;
 
-    public void delete(PK pk);
+    public void delete(PK pk) throws Exception;
 
 }

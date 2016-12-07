@@ -1,18 +1,20 @@
 package com.hooper.mapper;
 
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
 import com.hooper.model.Favorite;
+import com.hooper.model.FavoriteExample;
+import tk.mybatis.mapper.common.Mapper;
 
+public interface FavoriteMapper extends Mapper<Favorite> {
+    int countByExample(FavoriteExample example);
 
-public interface FavoriteMapper extends BaseMapper {
-    int deleteByPrimaryKey(Integer id);
+    int deleteByExample(FavoriteExample example);
 
-    int insert(Favorite record);
+    List<Favorite> selectByExample(FavoriteExample example);
 
-    int insertSelective(Favorite record);
+    int updateByExampleSelective(@Param("record") Favorite record, @Param("example") FavoriteExample example);
 
-    Favorite selectByPrimaryKey(Integer id);
-
-    int updateByPrimaryKeySelective(Favorite record);
-
-    int updateByPrimaryKey(Favorite record);
+    int updateByExample(@Param("record") Favorite record, @Param("example") FavoriteExample example);
 }

@@ -27,11 +27,12 @@ public class PermissionAspect {
     }
 
 
+    //需要返回 joinPoin.proceed() 否则，直接返回空
+    //这里的值对应的方法名及参数
     @Around("poinCut(authAnnotation)")
     public Object around(ProceedingJoinPoint joinPoint,AuthAnnotation authAnnotation) throws Throwable {
         System.out.println(joinPoint);
         System.out.println(authAnnotation);
-        joinPoint.proceed();
-        return null;
+        return joinPoint.proceed();
     }
 }

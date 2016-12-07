@@ -1,20 +1,20 @@
 package com.hooper.mapper;
 
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
 import com.hooper.model.User;
+import com.hooper.model.UserExample;
+import tk.mybatis.mapper.common.Mapper;
 
+public interface UserMapper extends Mapper<User> {
+    int countByExample(UserExample example);
 
-public interface UserMapper extends BaseMapper {
-    int deleteByPrimaryKey(Integer id);
+    int deleteByExample(UserExample example);
 
-    int insert(User record);
+    List<User> selectByExample(UserExample example);
 
-    int insertSelective(User record);
+    int updateByExampleSelective(@Param("record") User record, @Param("example") UserExample example);
 
-    User selectByPrimaryKey(Integer id);
-
-    User selectByName(String name);
-
-    int updateByPrimaryKeySelective(User record);
-
-    int updateByPrimaryKey(User record);
+    int updateByExample(@Param("record") User record, @Param("example") UserExample example);
 }

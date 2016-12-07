@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.hooper.mapper.GameMapper" >
+<mapper namespace="test.mapper.GameMapper">
   <resultMap id="BaseResultMap" type="com.hooper.model.Game" >
+      <!--
+        WARNING - @mbg.generated
+      -->
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="title" property="title" jdbcType="VARCHAR" />
     <result column="imgSrc" property="imgsrc" jdbcType="VARCHAR" />
@@ -15,184 +18,230 @@
     <result column="deleted" property="deleted" jdbcType="BIT" />
   </resultMap>
   <resultMap id="ResultMapWithBLOBs" type="com.hooper.model.Game" extends="BaseResultMap" >
+      <!--
+        WARNING - @mbg.generated
+      -->
     <result column="detail" property="detail" jdbcType="LONGVARCHAR" />
   </resultMap>
+    <sql id="Example_Where_Clause">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <where>
+            <foreach collection="oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" suffix=")" prefixOverrides="and">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach collection="criterion.value" item="listItem" open="(" close=")"
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
+    <sql id="Update_By_Example_Where_Clause">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        <where>
+            <foreach collection="example.oredCriteria" item="criteria" separator="or">
+                <if test="criteria.valid">
+                    <trim prefix="(" suffix=")" prefixOverrides="and">
+                        <foreach collection="criteria.criteria" item="criterion">
+                            <choose>
+                                <when test="criterion.noValue">
+                                    and ${criterion.condition}
+                                </when>
+                                <when test="criterion.singleValue">
+                                    and ${criterion.condition} #{criterion.value}
+                                </when>
+                                <when test="criterion.betweenValue">
+                                    and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                                </when>
+                                <when test="criterion.listValue">
+                                    and ${criterion.condition}
+                                    <foreach collection="criterion.value" item="listItem" open="(" close=")"
+                                             separator=",">
+                                        #{listItem}
+                                    </foreach>
+                                </when>
+                            </choose>
+                        </foreach>
+                    </trim>
+                </if>
+            </foreach>
+        </where>
+    </sql>
   <sql id="Base_Column_List" >
+      <!--
+        WARNING - @mbg.generated
+      -->
     id, title, imgSrc, donwloadUrl, intro, viewCount, favourCount, donwloadCount, ctime, 
     utime, deleted
   </sql>
   <sql id="Blob_Column_List" >
+      <!--
+        WARNING - @mbg.generated
+      -->
     detail
   </sql>
-  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
-    select 
+    <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.hooper.model.GameExample">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        select
+        <if test="distinct">
+            distinct
+        </if>
     <include refid="Base_Column_List" />
     ,
     <include refid="Blob_Column_List" />
     from game
-    where id = #{id,jdbcType=INTEGER}
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.hooper.model.GameExample">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        select
+        <if test="distinct">
+            distinct
+        </if>
+        <include refid="Base_Column_List"/>
+        from game
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+        <if test="orderByClause != null">
+            order by ${orderByClause}
+        </if>
+    </select>
+    <delete id="deleteByExample" parameterType="com.hooper.model.GameExample">
+        <!--
+          WARNING - @mbg.generated
+        -->
     delete from game
-    where id = #{id,jdbcType=INTEGER}
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
   </delete>
-  <insert id="insert" parameterType="com.hooper.model.Game" >
-    insert into game (id, title, imgSrc, 
-      donwloadUrl, intro, viewCount, 
-      favourCount, donwloadCount, ctime, 
-      utime, deleted, detail
-      )
-    values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{imgsrc,jdbcType=VARCHAR}, 
-      #{donwloadurl,jdbcType=VARCHAR}, #{intro,jdbcType=VARCHAR}, #{viewcount,jdbcType=INTEGER}, 
-      #{favourcount,jdbcType=INTEGER}, #{donwloadcount,jdbcType=INTEGER}, #{ctime,jdbcType=BIGINT}, 
-      #{utime,jdbcType=BIGINT}, #{deleted,jdbcType=BIT}, #{detail,jdbcType=LONGVARCHAR}
-      )
-  </insert>
-  <insert id="insertSelective" parameterType="com.hooper.model.Game" >
-    insert into game
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        id,
-      </if>
-      <if test="title != null" >
-        title,
-      </if>
-      <if test="imgsrc != null" >
-        imgSrc,
-      </if>
-      <if test="donwloadurl != null" >
-        donwloadUrl,
-      </if>
-      <if test="intro != null" >
-        intro,
-      </if>
-      <if test="viewcount != null" >
-        viewCount,
-      </if>
-      <if test="favourcount != null" >
-        favourCount,
-      </if>
-      <if test="donwloadcount != null" >
-        donwloadCount,
-      </if>
-      <if test="ctime != null" >
-        ctime,
-      </if>
-      <if test="utime != null" >
-        utime,
-      </if>
-      <if test="deleted != null" >
-        deleted,
-      </if>
-      <if test="detail != null" >
-        detail,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        #{id,jdbcType=INTEGER},
-      </if>
-      <if test="title != null" >
-        #{title,jdbcType=VARCHAR},
-      </if>
-      <if test="imgsrc != null" >
-        #{imgsrc,jdbcType=VARCHAR},
-      </if>
-      <if test="donwloadurl != null" >
-        #{donwloadurl,jdbcType=VARCHAR},
-      </if>
-      <if test="intro != null" >
-        #{intro,jdbcType=VARCHAR},
-      </if>
-      <if test="viewcount != null" >
-        #{viewcount,jdbcType=INTEGER},
-      </if>
-      <if test="favourcount != null" >
-        #{favourcount,jdbcType=INTEGER},
-      </if>
-      <if test="donwloadcount != null" >
-        #{donwloadcount,jdbcType=INTEGER},
-      </if>
-      <if test="ctime != null" >
-        #{ctime,jdbcType=BIGINT},
-      </if>
-      <if test="utime != null" >
-        #{utime,jdbcType=BIGINT},
-      </if>
-      <if test="deleted != null" >
-        #{deleted,jdbcType=BIT},
-      </if>
-      <if test="detail != null" >
-        #{detail,jdbcType=LONGVARCHAR},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.hooper.model.Game" >
+    <select id="countByExample" parameterType="com.hooper.model.GameExample" resultType="java.lang.Integer">
+        <!--
+          WARNING - @mbg.generated
+        -->
+        select count(*) from game
+        <if test="_parameter != null">
+            <include refid="Example_Where_Clause"/>
+        </if>
+    </select>
+    <update id="updateByExampleSelective" parameterType="map">
+        <!--
+          WARNING - @mbg.generated
+        -->
     update game
     <set >
-      <if test="title != null" >
-        title = #{title,jdbcType=VARCHAR},
+        <if test="record.id != null">
+            id = #{record.id,jdbcType=INTEGER},
       </if>
-      <if test="imgsrc != null" >
-        imgSrc = #{imgsrc,jdbcType=VARCHAR},
+        <if test="record.title != null">
+            title = #{record.title,jdbcType=VARCHAR},
       </if>
-      <if test="donwloadurl != null" >
-        donwloadUrl = #{donwloadurl,jdbcType=VARCHAR},
+        <if test="record.imgsrc != null">
+            imgSrc = #{record.imgsrc,jdbcType=VARCHAR},
       </if>
-      <if test="intro != null" >
-        intro = #{intro,jdbcType=VARCHAR},
+        <if test="record.donwloadurl != null">
+            donwloadUrl = #{record.donwloadurl,jdbcType=VARCHAR},
       </if>
-      <if test="viewcount != null" >
-        viewCount = #{viewcount,jdbcType=INTEGER},
+        <if test="record.intro != null">
+            intro = #{record.intro,jdbcType=VARCHAR},
       </if>
-      <if test="favourcount != null" >
-        favourCount = #{favourcount,jdbcType=INTEGER},
+        <if test="record.viewcount != null">
+            viewCount = #{record.viewcount,jdbcType=INTEGER},
       </if>
-      <if test="donwloadcount != null" >
-        donwloadCount = #{donwloadcount,jdbcType=INTEGER},
+        <if test="record.favourcount != null">
+            favourCount = #{record.favourcount,jdbcType=INTEGER},
       </if>
-      <if test="ctime != null" >
-        ctime = #{ctime,jdbcType=BIGINT},
+        <if test="record.donwloadcount != null">
+            donwloadCount = #{record.donwloadcount,jdbcType=INTEGER},
       </if>
-      <if test="utime != null" >
-        utime = #{utime,jdbcType=BIGINT},
+        <if test="record.ctime != null">
+            ctime = #{record.ctime,jdbcType=BIGINT},
       </if>
-      <if test="deleted != null" >
-        deleted = #{deleted,jdbcType=BIT},
+        <if test="record.utime != null">
+            utime = #{record.utime,jdbcType=BIGINT},
       </if>
-      <if test="detail != null" >
-        detail = #{detail,jdbcType=LONGVARCHAR},
+        <if test="record.deleted != null">
+            deleted = #{record.deleted,jdbcType=BIT},
       </if>
+        <if test="record.detail != null">
+            detail = #{record.detail,jdbcType=LONGVARCHAR},
+        </if>
     </set>
-    where id = #{id,jdbcType=INTEGER}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
   </update>
-  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.hooper.model.Game" >
+    <update id="updateByExampleWithBLOBs" parameterType="map">
+        <!--
+          WARNING - @mbg.generated
+        -->
     update game
-    set title = #{title,jdbcType=VARCHAR},
-      imgSrc = #{imgsrc,jdbcType=VARCHAR},
-      donwloadUrl = #{donwloadurl,jdbcType=VARCHAR},
-      intro = #{intro,jdbcType=VARCHAR},
-      viewCount = #{viewcount,jdbcType=INTEGER},
-      favourCount = #{favourcount,jdbcType=INTEGER},
-      donwloadCount = #{donwloadcount,jdbcType=INTEGER},
-      ctime = #{ctime,jdbcType=BIGINT},
-      utime = #{utime,jdbcType=BIGINT},
-      deleted = #{deleted,jdbcType=BIT},
-      detail = #{detail,jdbcType=LONGVARCHAR}
-    where id = #{id,jdbcType=INTEGER}
+        set id = #{record.id,jdbcType=INTEGER},
+        title = #{record.title,jdbcType=VARCHAR},
+        imgSrc = #{record.imgsrc,jdbcType=VARCHAR},
+        donwloadUrl = #{record.donwloadurl,jdbcType=VARCHAR},
+        intro = #{record.intro,jdbcType=VARCHAR},
+        viewCount = #{record.viewcount,jdbcType=INTEGER},
+        favourCount = #{record.favourcount,jdbcType=INTEGER},
+        donwloadCount = #{record.donwloadcount,jdbcType=INTEGER},
+        ctime = #{record.ctime,jdbcType=BIGINT},
+        utime = #{record.utime,jdbcType=BIGINT},
+        deleted = #{record.deleted,jdbcType=BIT},
+        detail = #{record.detail,jdbcType=LONGVARCHAR}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.hooper.model.Game" >
+    <update id="updateByExample" parameterType="map">
+        <!--
+          WARNING - @mbg.generated
+        -->
     update game
-    set title = #{title,jdbcType=VARCHAR},
-      imgSrc = #{imgsrc,jdbcType=VARCHAR},
-      donwloadUrl = #{donwloadurl,jdbcType=VARCHAR},
-      intro = #{intro,jdbcType=VARCHAR},
-      viewCount = #{viewcount,jdbcType=INTEGER},
-      favourCount = #{favourcount,jdbcType=INTEGER},
-      donwloadCount = #{donwloadcount,jdbcType=INTEGER},
-      ctime = #{ctime,jdbcType=BIGINT},
-      utime = #{utime,jdbcType=BIGINT},
-      deleted = #{deleted,jdbcType=BIT}
-    where id = #{id,jdbcType=INTEGER}
+        set id = #{record.id,jdbcType=INTEGER},
+        title = #{record.title,jdbcType=VARCHAR},
+        imgSrc = #{record.imgsrc,jdbcType=VARCHAR},
+        donwloadUrl = #{record.donwloadurl,jdbcType=VARCHAR},
+        intro = #{record.intro,jdbcType=VARCHAR},
+        viewCount = #{record.viewcount,jdbcType=INTEGER},
+        favourCount = #{record.favourcount,jdbcType=INTEGER},
+        donwloadCount = #{record.donwloadcount,jdbcType=INTEGER},
+        ctime = #{record.ctime,jdbcType=BIGINT},
+        utime = #{record.utime,jdbcType=BIGINT},
+        deleted = #{record.deleted,jdbcType=BIT}
+        <if test="_parameter != null">
+            <include refid="Update_By_Example_Where_Clause"/>
+        </if>
   </update>
 </mapper>

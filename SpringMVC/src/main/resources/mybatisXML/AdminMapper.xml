@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.hooper.mapper.AdminMapper" >
+<mapper namespace="test.mapper.AdminMapper">
   <resultMap id="BaseResultMap" type="com.hooper.model.Admin" >
+    <!--
+      WARNING - @mbg.generated
+    -->
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="password" property="password" jdbcType="VARCHAR" />
@@ -13,140 +16,169 @@
     <result column="lastLoginTime" property="lastlogintime" jdbcType="BIGINT" />
     <result column="lastLoginIp" property="lastloginip" jdbcType="BIGINT" />
   </resultMap>
+  <sql id="Example_Where_Clause">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" suffix=")" prefixOverrides="and">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" suffix=")" prefixOverrides="and">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
   <sql id="Base_Column_List" >
+    <!--
+      WARNING - @mbg.generated
+    -->
     id, name, password, randomSalt, avatar, ctime, utime, deleted, lastLoginTime, lastLoginIp
   </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select 
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.hooper.model.AdminExample">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    select
+    <if test="distinct">
+      distinct
+    </if>
     <include refid="Base_Column_List" />
     from admin
-    where id = #{id,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause"/>
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+  <delete id="deleteByExample" parameterType="com.hooper.model.AdminExample">
+    <!--
+      WARNING - @mbg.generated
+    -->
     delete from admin
-    where id = #{id,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause"/>
+    </if>
   </delete>
-  <insert id="insert" parameterType="com.hooper.model.Admin" >
-    insert into admin (id, name, password, 
-      randomSalt, avatar, ctime, 
-      utime, deleted, lastLoginTime, 
-      lastLoginIp)
-    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, 
-      #{randomsalt,jdbcType=VARCHAR}, #{avatar,jdbcType=VARCHAR}, #{ctime,jdbcType=BIGINT}, 
-      #{utime,jdbcType=BIGINT}, #{deleted,jdbcType=BIT}, #{lastlogintime,jdbcType=BIGINT}, 
-      #{lastloginip,jdbcType=BIGINT})
-  </insert>
-  <insert id="insertSelective" parameterType="com.hooper.model.Admin" >
-    insert into admin
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        id,
-      </if>
-      <if test="name != null" >
-        name,
-      </if>
-      <if test="password != null" >
-        password,
-      </if>
-      <if test="randomsalt != null" >
-        randomSalt,
-      </if>
-      <if test="avatar != null" >
-        avatar,
-      </if>
-      <if test="ctime != null" >
-        ctime,
-      </if>
-      <if test="utime != null" >
-        utime,
-      </if>
-      <if test="deleted != null" >
-        deleted,
-      </if>
-      <if test="lastlogintime != null" >
-        lastLoginTime,
-      </if>
-      <if test="lastloginip != null" >
-        lastLoginIp,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        #{id,jdbcType=INTEGER},
-      </if>
-      <if test="name != null" >
-        #{name,jdbcType=VARCHAR},
-      </if>
-      <if test="password != null" >
-        #{password,jdbcType=VARCHAR},
-      </if>
-      <if test="randomsalt != null" >
-        #{randomsalt,jdbcType=VARCHAR},
-      </if>
-      <if test="avatar != null" >
-        #{avatar,jdbcType=VARCHAR},
-      </if>
-      <if test="ctime != null" >
-        #{ctime,jdbcType=BIGINT},
-      </if>
-      <if test="utime != null" >
-        #{utime,jdbcType=BIGINT},
-      </if>
-      <if test="deleted != null" >
-        #{deleted,jdbcType=BIT},
-      </if>
-      <if test="lastlogintime != null" >
-        #{lastlogintime,jdbcType=BIGINT},
-      </if>
-      <if test="lastloginip != null" >
-        #{lastloginip,jdbcType=BIGINT},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.hooper.model.Admin" >
+  <select id="countByExample" parameterType="com.hooper.model.AdminExample" resultType="java.lang.Integer">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    select count(*) from admin
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause"/>
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    <!--
+      WARNING - @mbg.generated
+    -->
     update admin
     <set >
-      <if test="name != null" >
-        name = #{name,jdbcType=VARCHAR},
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
       </if>
-      <if test="password != null" >
-        password = #{password,jdbcType=VARCHAR},
+      <if test="record.name != null">
+        name = #{record.name,jdbcType=VARCHAR},
       </if>
-      <if test="randomsalt != null" >
-        randomSalt = #{randomsalt,jdbcType=VARCHAR},
+      <if test="record.password != null">
+        password = #{record.password,jdbcType=VARCHAR},
       </if>
-      <if test="avatar != null" >
-        avatar = #{avatar,jdbcType=VARCHAR},
+      <if test="record.randomsalt != null">
+        randomSalt = #{record.randomsalt,jdbcType=VARCHAR},
       </if>
-      <if test="ctime != null" >
-        ctime = #{ctime,jdbcType=BIGINT},
+      <if test="record.avatar != null">
+        avatar = #{record.avatar,jdbcType=VARCHAR},
       </if>
-      <if test="utime != null" >
-        utime = #{utime,jdbcType=BIGINT},
+      <if test="record.ctime != null">
+        ctime = #{record.ctime,jdbcType=BIGINT},
       </if>
-      <if test="deleted != null" >
-        deleted = #{deleted,jdbcType=BIT},
+      <if test="record.utime != null">
+        utime = #{record.utime,jdbcType=BIGINT},
       </if>
-      <if test="lastlogintime != null" >
-        lastLoginTime = #{lastlogintime,jdbcType=BIGINT},
+      <if test="record.deleted != null">
+        deleted = #{record.deleted,jdbcType=BIT},
       </if>
-      <if test="lastloginip != null" >
-        lastLoginIp = #{lastloginip,jdbcType=BIGINT},
+      <if test="record.lastlogintime != null">
+        lastLoginTime = #{record.lastlogintime,jdbcType=BIGINT},
+      </if>
+      <if test="record.lastloginip != null">
+        lastLoginIp = #{record.lastloginip,jdbcType=BIGINT},
       </if>
     </set>
-    where id = #{id,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause"/>
+    </if>
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.hooper.model.Admin" >
+  <update id="updateByExample" parameterType="map">
+    <!--
+      WARNING - @mbg.generated
+    -->
     update admin
-    set name = #{name,jdbcType=VARCHAR},
-      password = #{password,jdbcType=VARCHAR},
-      randomSalt = #{randomsalt,jdbcType=VARCHAR},
-      avatar = #{avatar,jdbcType=VARCHAR},
-      ctime = #{ctime,jdbcType=BIGINT},
-      utime = #{utime,jdbcType=BIGINT},
-      deleted = #{deleted,jdbcType=BIT},
-      lastLoginTime = #{lastlogintime,jdbcType=BIGINT},
-      lastLoginIp = #{lastloginip,jdbcType=BIGINT}
-    where id = #{id,jdbcType=INTEGER}
+    set id = #{record.id,jdbcType=INTEGER},
+    name = #{record.name,jdbcType=VARCHAR},
+    password = #{record.password,jdbcType=VARCHAR},
+    randomSalt = #{record.randomsalt,jdbcType=VARCHAR},
+    avatar = #{record.avatar,jdbcType=VARCHAR},
+    ctime = #{record.ctime,jdbcType=BIGINT},
+    utime = #{record.utime,jdbcType=BIGINT},
+    deleted = #{record.deleted,jdbcType=BIT},
+    lastLoginTime = #{record.lastlogintime,jdbcType=BIGINT},
+    lastLoginIp = #{record.lastloginip,jdbcType=BIGINT}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause"/>
+    </if>
   </update>
 </mapper>

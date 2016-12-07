@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.hooper.mapper.CommentMapper" >
+<mapper namespace="test.mapper.CommentMapper">
   <resultMap id="BaseResultMap" type="com.hooper.model.Comment" >
+    <!--
+      WARNING - @mbg.generated
+    -->
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="gameId" property="gameid" jdbcType="INTEGER" />
     <result column="userId" property="userid" jdbcType="INTEGER" />
@@ -10,108 +13,157 @@
     <result column="utime" property="utime" jdbcType="BIGINT" />
     <result column="deleted" property="deleted" jdbcType="BIT" />
   </resultMap>
+  <sql id="Example_Where_Clause">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" suffix=")" prefixOverrides="and">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" suffix=")" prefixOverrides="and">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
   <sql id="Base_Column_List" >
+    <!--
+      WARNING - @mbg.generated
+    -->
     id, gameId, userId, context, ctime, utime, deleted
   </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
-    select 
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.hooper.model.CommentExample">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    select
+    <if test="distinct">
+      distinct
+    </if>
     <include refid="Base_Column_List" />
     from comment
-    where id = #{id,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause"/>
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+  <delete id="deleteByExample" parameterType="com.hooper.model.CommentExample">
+    <!--
+      WARNING - @mbg.generated
+    -->
     delete from comment
-    where id = #{id,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause"/>
+    </if>
   </delete>
-  <insert id="insert" parameterType="com.hooper.model.Comment" >
-    insert into comment (id, gameId, userId, 
-      context, ctime, utime, 
-      deleted)
-    values (#{id,jdbcType=INTEGER}, #{gameid,jdbcType=INTEGER}, #{userid,jdbcType=INTEGER}, 
-      #{context,jdbcType=VARCHAR}, #{ctime,jdbcType=BIGINT}, #{utime,jdbcType=BIGINT}, 
-      #{deleted,jdbcType=BIT})
-  </insert>
-  <insert id="insertSelective" parameterType="com.hooper.model.Comment" >
-    insert into comment
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        id,
-      </if>
-      <if test="gameid != null" >
-        gameId,
-      </if>
-      <if test="userid != null" >
-        userId,
-      </if>
-      <if test="context != null" >
-        context,
-      </if>
-      <if test="ctime != null" >
-        ctime,
-      </if>
-      <if test="utime != null" >
-        utime,
-      </if>
-      <if test="deleted != null" >
-        deleted,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        #{id,jdbcType=INTEGER},
-      </if>
-      <if test="gameid != null" >
-        #{gameid,jdbcType=INTEGER},
-      </if>
-      <if test="userid != null" >
-        #{userid,jdbcType=INTEGER},
-      </if>
-      <if test="context != null" >
-        #{context,jdbcType=VARCHAR},
-      </if>
-      <if test="ctime != null" >
-        #{ctime,jdbcType=BIGINT},
-      </if>
-      <if test="utime != null" >
-        #{utime,jdbcType=BIGINT},
-      </if>
-      <if test="deleted != null" >
-        #{deleted,jdbcType=BIT},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.hooper.model.Comment" >
+  <select id="countByExample" parameterType="com.hooper.model.CommentExample" resultType="java.lang.Integer">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    select count(*) from comment
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause"/>
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    <!--
+      WARNING - @mbg.generated
+    -->
     update comment
     <set >
-      <if test="gameid != null" >
-        gameId = #{gameid,jdbcType=INTEGER},
+      <if test="record.id != null">
+        id = #{record.id,jdbcType=INTEGER},
       </if>
-      <if test="userid != null" >
-        userId = #{userid,jdbcType=INTEGER},
+      <if test="record.gameid != null">
+        gameId = #{record.gameid,jdbcType=INTEGER},
       </if>
-      <if test="context != null" >
-        context = #{context,jdbcType=VARCHAR},
+      <if test="record.userid != null">
+        userId = #{record.userid,jdbcType=INTEGER},
       </if>
-      <if test="ctime != null" >
-        ctime = #{ctime,jdbcType=BIGINT},
+      <if test="record.context != null">
+        context = #{record.context,jdbcType=VARCHAR},
       </if>
-      <if test="utime != null" >
-        utime = #{utime,jdbcType=BIGINT},
+      <if test="record.ctime != null">
+        ctime = #{record.ctime,jdbcType=BIGINT},
       </if>
-      <if test="deleted != null" >
-        deleted = #{deleted,jdbcType=BIT},
+      <if test="record.utime != null">
+        utime = #{record.utime,jdbcType=BIGINT},
+      </if>
+      <if test="record.deleted != null">
+        deleted = #{record.deleted,jdbcType=BIT},
       </if>
     </set>
-    where id = #{id,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause"/>
+    </if>
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.hooper.model.Comment" >
+  <update id="updateByExample" parameterType="map">
+    <!--
+      WARNING - @mbg.generated
+    -->
     update comment
-    set gameId = #{gameid,jdbcType=INTEGER},
-      userId = #{userid,jdbcType=INTEGER},
-      context = #{context,jdbcType=VARCHAR},
-      ctime = #{ctime,jdbcType=BIGINT},
-      utime = #{utime,jdbcType=BIGINT},
-      deleted = #{deleted,jdbcType=BIT}
-    where id = #{id,jdbcType=INTEGER}
+    set id = #{record.id,jdbcType=INTEGER},
+    gameId = #{record.gameid,jdbcType=INTEGER},
+    userId = #{record.userid,jdbcType=INTEGER},
+    context = #{record.context,jdbcType=VARCHAR},
+    ctime = #{record.ctime,jdbcType=BIGINT},
+    utime = #{record.utime,jdbcType=BIGINT},
+    deleted = #{record.deleted,jdbcType=BIT}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause"/>
+    </if>
   </update>
 </mapper>

@@ -1,18 +1,20 @@
 package com.hooper.mapper;
 
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
 import com.hooper.model.Admin;
+import com.hooper.model.AdminExample;
+import tk.mybatis.mapper.common.Mapper;
 
+public interface AdminMapper extends Mapper<Admin> {
+    int countByExample(AdminExample example);
 
-public interface AdminMapper extends BaseMapper {
-    int deleteByPrimaryKey(Integer id);
+    int deleteByExample(AdminExample example);
 
-    int insert(Admin record);
+    List<Admin> selectByExample(AdminExample example);
 
-    int insertSelective(Admin record);
+    int updateByExampleSelective(@Param("record") Admin record, @Param("example") AdminExample example);
 
-    Admin selectByPrimaryKey(Integer id);
-
-    int updateByPrimaryKeySelective(Admin record);
-
-    int updateByPrimaryKey(Admin record);
+    int updateByExample(@Param("record") Admin record, @Param("example") AdminExample example);
 }

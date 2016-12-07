@@ -1,20 +1,24 @@
 package com.hooper.mapper;
 
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
 import com.hooper.model.Game;
+import com.hooper.model.GameExample;
+import tk.mybatis.mapper.common.Mapper;
 
+public interface GameMapper extends Mapper<Game> {
+    int countByExample(GameExample example);
 
-public interface GameMapper extends BaseMapper {
-    int deleteByPrimaryKey(Integer id);
+    int deleteByExample(GameExample example);
 
-    int insert(Game record);
+    List<Game> selectByExampleWithBLOBs(GameExample example);
 
-    int insertSelective(Game record);
+    List<Game> selectByExample(GameExample example);
 
-    Game selectByPrimaryKey(Integer id);
+    int updateByExampleSelective(@Param("record") Game record, @Param("example") GameExample example);
 
-    int updateByPrimaryKeySelective(Game record);
+    int updateByExampleWithBLOBs(@Param("record") Game record, @Param("example") GameExample example);
 
-    int updateByPrimaryKeyWithBLOBs(Game record);
-
-    int updateByPrimaryKey(Game record);
+    int updateByExample(@Param("record") Game record, @Param("example") GameExample example);
 }
